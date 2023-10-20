@@ -1,0 +1,9 @@
+fastapi==0.104.0
+uvicorn[standard]==0.23.2
+# psycopg2-binary==2.9.3
+black==23.10.0
+flake8==6.1.0
+openai==0.28.1
+tiktoken==0.5.1
+chromadb==0.4.14
+langchain==0.0.319 
