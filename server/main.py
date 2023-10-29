@@ -1,4 +1,8 @@
 import logging
+from contextlib import asynccontextmanager
+from langchain.chat_models import ChatOpenAI
+from .models import LetterReq, LetterResp
+
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,7 +17,6 @@ logger = logging.getLogger(__name__)
 
 
 app = FastAPI()
-
 
 origins = ["*"]
 app.add_middleware(
@@ -33,3 +36,8 @@ def ping():
 @app.get("/health")
 def health():
     return "ok"
+
+
+@app.post("/result")
+def result(req: LetterReq) -> LetterResp:
+    return LetterResp(coverLetter="Hello World!")
