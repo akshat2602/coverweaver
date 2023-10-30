@@ -8,3 +8,5 @@ tiktoken==0.5.1
 chromadb==0.4.14
 langchain==0.0.319
 streamlit==1.28.0
+pydantic==1.10.8
+pypdf==3.17.0
