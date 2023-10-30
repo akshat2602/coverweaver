@@ -28,8 +28,8 @@ def parse_resume(file):
 
 
 def generate_summary(blogs, llm, company_name="Cloudflare"):
-    map_template = """Extract technical information from the articles below 
-    to help me write a cover letter when applying to software developer 
+    map_template = """Extract technical information from the articles below
+    to help me write a cover letter when applying to software developer
     roles at Cloudflare.
     "{blogs}"
     SUMMARY:"""
@@ -105,11 +105,15 @@ def generate_response(input_blogs, jd_url, file):
     {resume}
     Here is the Job description:
     {jd}
-    Generate a great cover letter for me to apply to Cloudflare only using the above inputs,
-    demonstrating excitement about work shown in the blogs. ONLY mention the work I've done in my resume, do not make things up.
-    Link my demonstrated experience in my resume to technical challenges faced at Cloudflare for the topics in the job description.
-    Balance the cover letter so that the content from the blogs and my resume is used equally, don't let one input dominate the other.
-    Being truthful is of the highest importance. Do not say I have done something not present in my resume.
+    Generate a great cover letter for me to apply to Cloudflare only using the
+    above inputs,demonstrating excitement about work shown in the blogs.
+    ONLY mention the work I've done in my resume, do not make things up.
+    Link my demonstrated experience in my resume to technical challenges faced
+    at Cloudflare for the topics in the job description.
+    Balance the cover letter so that the content from the blogs and my resume is
+    used equally, don't let one input dominate the other.
+    Being truthful is of the highest importance. Do not say I have done
+    something not present in my resume.
     Make it sound more human but still professional.
     Cover letter:"""
     fin_prompt = PromptTemplate.from_template(fin_template)
