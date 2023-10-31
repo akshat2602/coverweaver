@@ -9,6 +9,9 @@ from langchain.document_loaders import PyPDFLoader
 
 
 st.title("CoverWeaver")
+st.link_button("GitHub", "https://github.com/akshat2602/coverweaver/tree/streamlit")
+
+st.text("Generate a cover letter for a job application using OpenAI's GPT-3")
 
 with st.sidebar:
     st.subheader("OpenAI API Key")
@@ -133,10 +136,10 @@ resp = None  # Initialize to None
 
 st.subheader("Inputs")
 with st.form("my_form"):
-    blog_1_url = st.text_input("Blog Link", "Enter blog link:", key="blog_1")
-    blog_2_url = st.text_input("Blog Link", "Enter blog link:", key="blog_2")
-    blog_3_url = st.text_input("Blog Link", "Enter blog link:", key="blog_3")
-    jd_url = st.text_input("Job Link", "Enter job link:", key="jd")
+    blog_1_url = st.text_input("Blog Link", key="blog_1")
+    blog_2_url = st.text_input("Blog Link", key="blog_2")
+    blog_3_url = st.text_input("Blog Link", key="blog_3")
+    jd_url = st.text_input("Job Link", key="jd")
     file = st.file_uploader(
         "Resume",
         accept_multiple_files=False,
