@@ -42,10 +42,10 @@ def parse_resume(file):
     return resume
 
 
-def generate_summary(blogs, llm, company_name="Cloudflare"):
+def generate_summary(blogs, llm, company_name):
     map_template = """Extract technical information from the articles below
     to help me write a cover letter when applying to software developer
-    roles at Cloudflare.
+    roles at {company_name}.
     "{blogs}"
     SUMMARY:"""
     map_prompt = PromptTemplate.from_template(map_template)
@@ -194,18 +194,18 @@ def generate_response(company_name, jd_url, file):
     summaryDocs = generate_summary(blogs=blogs, llm=llm)
     progress_text = "Generating cover letter. Please wait."
     my_bar.progress(80, text=progress_text)
-    fin_template = """Here is a summary of blogs from cloudflare :
+    fin_template = """Here is a summary of blogs from {company_name}} :
     {summaryDocs}
     Summary of documents ends here.
     Here is my resume:
     {resume}
     Here is the Job description:
     {jd}
-    Generate a great cover letter for me to apply to Cloudflare only using the
+    Generate a great cover letter for me to apply to {company_name} only using the
     above inputs,demonstrating excitement about work shown in the blogs.
     ONLY mention the work I've done in my resume, do not make things up.
     Link my demonstrated experience in my resume to technical challenges faced
-    at Cloudflare for the topics in the job description.
+    at {company_name} for the topics in the job description.
     Balance the cover letter so that the content from the blogs and my resume is
     used equally, don't let one input dominate the other.
     Being truthful is of the highest importance. Do not say I have done
