@@ -191,7 +191,7 @@ def generate_response(company_name, jd_url, file):
     llm = ChatOpenAI(
         temperature=0, model_name="gpt-4-1106-preview", openai_api_key=openai_api_key
     )
-    summaryDocs = generate_summary(blogs=blogs, llm=llm)
+    summaryDocs = generate_summary(blogs=blogs, llm=llm, company_name=company_name)
     progress_text = "Generating cover letter. Please wait."
     my_bar.progress(80, text=progress_text)
     fin_template = """Here is a summary of blogs from {company_name}} :
