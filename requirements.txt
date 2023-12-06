@@ -10,4 +10,5 @@ langchain==0.0.319
 streamlit==1.28.0
 pydantic==1.10.8
 pypdf==3.17.0
-beautifulsoup4==4.12.2 
+beautifulsoup4==4.12.2
+jq==1.6.0
