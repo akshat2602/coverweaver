@@ -12,6 +12,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
+
 def init_db():
     # Initialize the database
     global db
@@ -43,10 +44,10 @@ def parse_resume(file):
 
 
 def generate_summary(blogs, llm, company_name):
-    map_template = """Extract technical information from the articles below
+    map_template = f"""Extract technical information from the articles below
     to help me write a cover letter when applying to software developer
-    roles at {company_name}.
-    "{blogs}"
+    roles at {company_name}."""
+    map_template += """'{blogs}'
     SUMMARY:"""
     map_prompt = PromptTemplate.from_template(map_template)
     map_chain = LLMChain(llm=llm, prompt=map_prompt)
@@ -106,7 +107,7 @@ def add_docs_to_db(docs):
 def get_question_prompt(company_name, resume):
     from langchain.chains import LLMChain
 
-    prompt_template = """Here is a resume . The resume ends when you see the phrase 
+    prompt_template = """Here is a resume . The resume ends when you see the phrase
     'resume ends here.':
     {resume}
     Resume ends here.
@@ -119,7 +120,7 @@ def get_question_prompt(company_name, resume):
     user overcome some of the limitations
     of the distance-based similarity search. Provide these alternative queries
     separated by newlines.
-    Make sure that the queries are not too similar to each other, 
+    Make sure that the queries are not too similar to each other,
     our goal is to fetch different unique results using these queries.
     don't do anything that is not mentioned in the prompt."""
     llm = ChatOpenAI(
@@ -128,13 +129,11 @@ def get_question_prompt(company_name, resume):
     prompt_object = PromptTemplate.from_template(prompt_template)
 
     llm_chain = LLMChain(llm=llm, prompt=prompt_object)
-    questions = llm_chain.run(
-        {"resume": resume, "companyName": company_name}
-    )
+    questions = llm_chain.run({"resume": resume, "companyName": company_name})
     print(questions)
     refined_prompt = """
     {questions}
-    From the above text, just give me a newline separated list of the 
+    From the above text, just give me a newline separated list of the
     queries to be used in similarity search,
     remove terms like 'articles, retrieve, fetch, content, find'
     """
@@ -142,9 +141,7 @@ def get_question_prompt(company_name, resume):
     refined_prompt_object = PromptTemplate.from_template(refined_prompt)
 
     refined_llm_chain = LLMChain(llm=llm, prompt=refined_prompt_object)
-    refined_questions = refined_llm_chain.run(
-        {"questions": questions}
-    )
+    refined_questions = refined_llm_chain.run({"questions": questions})
     print(refined_questions)
     refined_questions = refined_questions.split("\n")
 
@@ -175,6 +172,7 @@ def extract_blogs_using_company_name(company_name, resume):
 
     return blog_sources_list
 
+
 def generate_response(company_name, jd_url, file):
     progress_text = "Parsing Resume. Please wait."
     my_bar = st.progress(0, text=progress_text)
@@ -194,7 +192,7 @@ def generate_response(company_name, jd_url, file):
     summaryDocs = generate_summary(blogs=blogs, llm=llm, company_name=company_name)
     progress_text = "Generating cover letter. Please wait."
     my_bar.progress(80, text=progress_text)
-    fin_template = """Here is a summary of blogs from {company_name}} :
+    fin_template = """Here is a summary of blogs from {company_name} :
     {summaryDocs}
     Summary of documents ends here.
     Here is my resume:
@@ -215,7 +213,12 @@ def generate_response(company_name, jd_url, file):
     fin_prompt = PromptTemplate.from_template(fin_template)
     fin_chain = LLMChain(llm=llm, prompt=fin_prompt)
     coverletter = fin_chain.run(
-        {"summaryDocs": summaryDocs, "resume": resume, "jd": jd}
+        {
+            "summaryDocs": summaryDocs,
+            "resume": resume,
+            "jd": jd,
+            "company_name": company_name,
+        }
     )
     progress_text = "Cover Letter Generated. Please wait."
     my_bar.progress(100, text=progress_text)
