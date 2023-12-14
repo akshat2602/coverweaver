@@ -12,3 +12,4 @@ pydantic==1.10.8
 pypdf==3.17.0
 beautifulsoup4==4.12.2
 jq==1.6.0
+sqlite3 >= 3.35.0
